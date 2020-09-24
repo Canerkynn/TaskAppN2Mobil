@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'ckeditor',
     'ckeditor_uploader',
-    'multiselectfield',
 ]
 
 MIDDLEWARE = [

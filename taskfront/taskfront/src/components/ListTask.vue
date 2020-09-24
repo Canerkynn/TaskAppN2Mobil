@@ -92,6 +92,7 @@
                             <th scope="col" class="text-danger">Published Date</th>
                             <th scope="col" class="text-danger">Status</th>
                             <th scope="col" class="text-danger">Detail</th>
+                            <th scope="col" class="text-danger">Delete</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -104,7 +105,8 @@
                             <th scope="row">{{task.publish_date.slice(0,10)}}</th>
                             <th scope="row" v-if="task.status == 'done'"><span class="badge badge-pill badge-success">{{task.status}}</span></th>
                             <th scope="row" v-if="task.status == 'todo'"><span class="badge badge-pill badge-danger">{{task.status}}</span></th>
-                            <button class="btn-warning mt-2 mb-3" v-on:click="taskDetail(task)"> Details </button>
+                            <th scope="row"><button class="btn-warning " v-on:click="taskDetail(task)"> Details </button></th>
+                            <th scope="row"><button class="btn-dark" v-on:click="deleteTask(task.id)"> Delete </button></th>
                         </tr>
                         </tbody>
                     </table>
@@ -252,6 +254,18 @@
                 this.label="";
                 this.getTasks();
 
+            },
+            deleteTask(id){
+                 axios({
+                    method:'delete',
+                    url:'http://127.0.0.1:8000/api/tasks/'+ id + '/',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+
+                }).then(res => {
+                    this.getTasks();
+                 })
             },
             compare(username){
                 for(let i=0;i<this.users.length;i++){

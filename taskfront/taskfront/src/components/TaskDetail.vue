@@ -38,6 +38,9 @@
                 <footer class="card-footer btn-status-2" v-if="this.taskdetail.status != 'done'">
                     <a class="card-footer-item" type="button" v-on:click="setStatus(taskdetail.id, 'done') ">done</a>
                 </footer>
+                <footer class="card-footer" >
+                    <a class="card-footer-item " type="button" v-on:click="deleteTask(taskdetail.id) ">Delete Task</a>
+                </footer>
             </div>
         </div>
     </div>
@@ -80,7 +83,6 @@
                     },
 
                 }).then(res => {
-                    console.log(res.data)
                     this.taskdetail.status = status
 
                 })
