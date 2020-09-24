@@ -9,10 +9,19 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^22.0.0",
     "@ckeditor/ckeditor5-vue": "^1.0.2",
+    "@toast-ui/vue-editor": "^2.4.0",
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
+    "iview": "^3.5.4",
+    "mdbvue": "^6.7.1",
+    "quill-image-uploader": "^1.2.2",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-js-modal": "^2.0.0-rc.6",
+    "vue-quill-editor": "^3.0.6",
+    "vue-router": "^3.2.0",
+    "vue-simple-alert": "^1.1.1",
+    "vue-truncate-filter": "^1.1.7",
+    "vue2-editor": "^2.10.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -1,41 +1,43 @@
 <template>
-    <div class="">
+    <div class="" v-if="taskdetail">
         <div class="row">
-            <div class="col-md-5 text-center taskDetails">
-                <h3 style="color:blue;" class="mb-5">Task Detail </h3>
+            <div class="col-md-12 text-center taskDetails">
+                <h1 class="mb-5">{{taskdetail.title}}</h1>
 
-                <p class="mb-3">Title : {{taskdetail.title}}</p>
+                <p class="mb-3" v-html="taskdetail.description"> {{taskdetail.description}}</p>
 
-                <p class="mb-3">Description: {{taskdetail.description}}</p>
-
-
-                <p class="mb-3">Label : {{taskdetail.label}}</p>
-
-                <p class="mb-3 " style="color:red">Employee : {{taskdetail.employee}}</p>
-
-                <p v-if="taskdetail.status == 'todo' ">
-                    <label for="employee" >Another Employee: </label>
-                    <select class="ml-2" name="employee" id="employee" v-model="employee">
-                        <option v-for="employee in employees" v-if="employee.username != taskdetail.employee" selected="selected"> {{employee.username}}  </option>
-                    </select>
-                </p>
-
-                <p class="mb-3">Status : {{taskdetail.status}}</p>
-
-                <p class="mb-3" style="color:orange"> Author : {{taskdetail.author}}</p>
-
-
-                <p class="mb-3" style="color:orange"> P_Date : {{taskdetail.publish_date}}</p>
-
-
-
-                <footer class="card-footer" v-if="this.taskdetail.status != 'done'">
-                    <a class="card-footer-item" v-on:click="setStatus(taskdetail.id, 'done',) ">Done</a>
+                <table class="table table-bordered ">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-capitalize">Author</th>
+                        <th scope="col" class="text-capitalize">Label</th>
+                        <th scope="col" class="text-capitalize">Employee</th>
+                        <th scope="col" class="text-capitalize">Published Date</th>
+                        <th scope="col" class="text-capitalize" v-if="taskdetail.status == 'done' ">Another Employee</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">{{taskdetail.author}}</th>
+                        <th scope="row">{{taskdetail.label}}</th>
+                        <th scope="row">{{taskdetail.employee}}</th>
+                        <th scope="row">{{taskdetail.publish_date.slice(0,10)}}</th>
+                        <th scope="row" v-if="taskdetail.status == 'done' ">
+                            <select class="ml-2" name="employee" id="employee" v-model="employee">
+                                <option v-for="employee in employees" selected="selected" v-if="employee.username != taskdetail.employee">
+                                    {{employee.username}}
+                                </option>
+                            </select>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+                <footer class="card-footer btn-status"  v-if="this.taskdetail.status != 'todo'">
+                    <a class="card-footer-item " type="button" v-on:click="setStatus(taskdetail.id, 'todo',) ">Todo</a>
                 </footer>
-                <footer class="card-footer" v-if="this.taskdetail.status != 'todo'">
-                    <a class="card-footer-item" v-on:click="setStatus(taskdetail.id, 'todo') ">Todo</a>
+                <footer class="card-footer btn-status-2" v-if="this.taskdetail.status != 'done'">
+                    <a class="card-footer-item" type="button" v-on:click="setStatus(taskdetail.id, 'done') ">done</a>
                 </footer>
-
             </div>
         </div>
     </div>
@@ -80,31 +82,23 @@
                 }).then(res => {
                     console.log(res.data)
                     this.taskdetail.status = status
-                    this.logout();
-                    this.$router.push('/listtask');
-                    // this.$router.push('/listtask', ).catch(()=>{});
+
                 })
             },
             idFind_employee(){
                 for (let i = 0; i<this.users.length;i++){
-                    console.log(this.employee)
-                    console.log(this.users[i]);
                     if (this.users[i].username == this.employee || this.users[i].username == this.author){
                         this.employee = this.users[i].id;
                         break;
                     }
                 }
-                console.log(this.employee)
                 return this.employee
             },
             idFind_author(employee){
 
                 for (let i = 0; i<this.users.length;i++){
-                    console.log("author",employee)
                     if (this.users[i].username == employee){
-                        console.log("author",this.employee)
                         this.author = this.users[i].id;
-                        console.log("author_sayi",this.author)
                         break;
                     }
                 }
@@ -114,7 +108,6 @@
                 axios.get("http://127.0.0.1:8000/api/users/")
                     .then(res => {
                         this.users = res.data;
-                        console.log(res.data);
                     })
                     .catch(err => console.log(err));
             },
@@ -128,7 +121,7 @@
         },
         created() {
             axios.get("http://127.0.0.1:8000/api/users/")
-                .then(res => (this.employees =res.data)) //console.log(res.data)
+                .then(res => (this.employees =res.data))
                 .catch(err => console.log(err));
             this.getUsers();
 
@@ -141,6 +134,45 @@
         float: left;
         text-align: center;
         width:100%;
-        margin-top: 10%;
+        margin-top: 2%;
     }
+    .btn-status {
+        color: #fff !important;
+        text-transform: uppercase;
+        text-decoration: none;
+        background: #ed3330;
+        padding: 20px;
+        border-radius: 5px;
+        display: inline-block;
+        border: none;
+        transition: all 0.4s ease 0s;
+    }
+    .btn-status-2 {
+        color: #fff !important;
+        text-transform: uppercase;
+        text-decoration: none;
+        background: #42b983;
+        padding: 20px;
+        border-radius: 5px;
+        display: inline-block;
+        border: none;
+        transition: all 0.4s ease 0s;
+    }
+    .btn-status:hover {
+        background: #42b983;
+        letter-spacing: 1px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.4s ease 0s;
+    }
+    .btn-status-2:hover {
+        background: #ed3330;
+        letter-spacing: 1px;
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.4s ease 0s;
+    }
+
 </style>

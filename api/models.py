@@ -1,6 +1,7 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
-
+from multiselectfield import MultiSelectField
 # Create your models here.
 
 class Gorevli(models.Model):
@@ -10,8 +11,9 @@ class Gorevli(models.Model):
         return self.employee.username
 
 class Task (models.Model):
+
     title = models.CharField(max_length=80)
-    description = models.TextField(max_length=150)
+    description = RichTextUploadingField()
     label = models.TextField(max_length=80)
     status = models.CharField(max_length=10,blank=True)
     employee = models.TextField(max_length=80)

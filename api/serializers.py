@@ -8,7 +8,7 @@ from api.models import Task, Gorevli
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ('id','title','description','label','employee','status','author','publish_date')
+        fields = ('id','title','description','label','employee','status','author','publish_date',)
         extra_kwargs = {'url':{'required':True}}
 
 class GorevliSerializer(serializers.ModelSerializer):
